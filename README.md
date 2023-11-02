@@ -10,6 +10,7 @@ The `AIlab2` Sudoku Solver is a command-line utility designed to solve Sudoku pu
 - [Usage](#usage)
 - [Verbose Mode](#verbose-mode)
 - [Output Files](#output-files)
+- [How does it work](#BNF-to-CNF-Conversion-Process)
 
 ## Installation
 
@@ -77,7 +78,97 @@ Certainly, here's a concise version of the usage documentation:
   ```
 
 Verbose mode (`-v`) provides the CNF clauses in the output.
+---
 
 **Note:** Replace `input.txt` with the path to your actual BNF file.
 
 ---
+
+---
+
+# BNF to CNF Conversion Process
+
+**Example:**
+Consider the Boolean formula `!(A v !B) <=> (!C => D) ^ E`.
+
+**Step 1: AST Parse Tree Construction**
+First, we construct an Abstract Syntax Tree (AST) that represents the logical structure of the formula:
+
+```
+BICONDITIONAL
+|  -- NOT
+|     -- OR
+|     |  -- A
+|        -- NOT
+|           -- B
+   -- AND
+   |  -- IMPLIES
+   |  |  -- NOT
+   |  |     -- C
+   |     -- D
+      -- E
+```
+
+**Step 2: Conversion to CNF Tree**
+Next, we transform the AST into a CNF tree by applying logical equivalences and distributing OR over AND:
+
+```
+AND
+|  -- AND
+|  |  -- OR
+|  |  |  -- OR
+|  |  |  |  -- NOT
+|  |  |  |     -- NOT
+|  |  |  |        -- A
+|  |  |     -- NOT
+|  |  |        -- B
+|  |     -- OR
+|  |     |  -- C
+|  |        -- D
+|     -- OR
+|     |  -- OR
+|     |  |  -- NOT
+|     |  |     -- NOT
+|     |  |        -- A
+|     |     -- NOT
+|     |        -- B
+|        -- E
+   -- AND
+   |  -- OR
+   |  |  -- OR
+   |  |  |  -- NOT
+   |  |  |     -- OR
+   |  |  |     |  -- C
+   |  |  |        -- D
+   |  |     -- NOT
+   |  |        -- E
+   |     -- NOT
+   |        -- A
+      -- OR
+      |  -- OR
+      |  |  -- NOT
+      |  |     -- OR
+      |  |     |  -- C
+      |  |        -- D
+      |     -- NOT
+      |        -- E
+         -- B
+```
+
+**Step 3: Conversion to CNF Clauses**
+Finally, we convert the CNF tree into CNF clauses, which are groups of literals connected by OR within a larger structure connected by AND:
+
+```
+Current Clauses:
+!B A C D
+!B A E
+!A !C !E D
+!C !E B D
+```
+
+These clauses represent the original formula in CNF, which can be used directly in algorithms like DPLL for satisfiability checking.
+
+
+**Application in Sudoku:**
+The same principles are used to translate Sudoku constraints into CNF for solving with SAT solvers. Each Sudoku condition is translated into clauses that reflect the rules of the game in CNF form.
+
