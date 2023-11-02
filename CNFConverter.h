@@ -93,18 +93,6 @@ public:
 
     Node toCNFTree(Node root);
 
-    void deduplicateClause(Node &clause);
-
-    string rootToString(Node root);
-
-    string extractLiterals(Node root);
-
-    vector<string> extractClauses(Node root);
-
-    string join(const vector<std::string> &vec, const string &delimiter);
-
-    vector<string> convertToCNF(const Node &root);
-
     string nodeToString(const Node &root);
 
     vector<string> convertBnf(const vector<string> &exprs);

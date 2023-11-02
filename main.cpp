@@ -222,7 +222,6 @@ int main(int argc, char *argv[]) {
             int val = input[3] - '0';
             board.setCell(row, col, val);
         }
-        board.printBoard();
 
         vector<string> clauses = sudokuConstraints(board);
 
