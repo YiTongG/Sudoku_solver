@@ -48,12 +48,7 @@ public:
         Node(const string& type, const vector<Node>& children = {})
                 : type(type), children(children) {}
     };
-    Node parse(const string& expr) {
-        tokens = tokenize(expr);     // 首先进行token化
-        currentPosition = 0;        // 初始化当前位置
-        currentToken = tokens[0];    // 设置当前token
 
-    }
 
 
     Node parse(const vector<Token>& tokens, int& pos);

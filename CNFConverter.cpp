@@ -584,11 +584,9 @@ vector<string> CNFConverter::convert(const vector<string> &exprs) {
         vector<Token> tokenlist = tokenize(expr);
         int pos = 0;
         Node astRoot = parse(tokenlist, pos); // 解析得到AST
-        //printTree(astRoot);
 
         Node cnfRoot = toCNF(astRoot);
 
-        // printTree(cnfRoot);
 
         //transform
         auto currentClauses = convertToCNF(cnfRoot);
