@@ -67,13 +67,7 @@ Assignment handleUnitClauses(const Formula &formula, const Assignment &assignmen
     return changesMade ? newAssignments : assignments;
 }
 
-Formula applyMultipleAssignmentsToFormula(const Formula &formula, const Assignment &assignments) {
-    Formula updatedFormula = formula;
-    for (const auto &[var, val]: assignments) {
-        updatedFormula = applyAssignmentToFormula(updatedFormula, var, val);
-    }
-    return updatedFormula;
-}
+
 
 Assignment dpll(const Formula &formula, const Assignment &initialAssignments) {
     // Base cases
