@@ -3,6 +3,7 @@
 //
 
 #include "SudokuBoard.h"
+#include <stdexcept> // Include for std::out_of_range
 
 SudokuBoard::SudokuBoard() {
     for (int i = 0; i < 9; ++i)
