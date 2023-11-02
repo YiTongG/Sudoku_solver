@@ -7,7 +7,6 @@
 #include "DPLL.h"
 #include <vector>
 #include <string>
-#include <regex>
 #include"CNFConverter.h"
 
 using namespace std;
@@ -150,26 +149,17 @@ void writeAssignmentsToFile(const map<string, bool> &assignments, const string &
 }
 
 bool isValidSudokuInput(const std::vector<std::string> &inputs) {
-    std::regex inputPattern(R"((\d)(\d)=(\d))"); // Pattern to match "rc=v" where r, c, v are digits
-    std::smatch match;
+    for (const std::string &input : inputs) {
 
-    for (const auto &input: inputs) {
-        if (!std::regex_match(input, match, inputPattern)) {
-            return false; // Input does not match the pattern
-        }
+        int row = input[0] - '0';
+        int col = input[1] - '0';
+        int val = input[3] - '0';
 
-        // Convert matched strings to integers
-        int row = std::stoi(match[1]);
-        int col = std::stoi(match[2]);
-        int val = std::stoi(match[3]);
-
-        // Check if row, column, and value are within the range [1, 9]
-        if (row < 1 || row > 9 || col < 1 || col > 9 || val < 1 || val > 9) {
-            return false; // One of the values is out of range
+        if (input[2] != '=' || row < 1 || row > 9 || col < 1 || col > 9 || val < 1 || val > 9) {
+            return false;
         }
     }
-
-    return true; // All inputs are valid
+    return true;
 }
 
 // Function to write CNF clauses to a file
